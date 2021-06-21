@@ -1,5 +1,5 @@
 import scrapy
-from ..items import AmazonscraperItem
+from ..items import WebScraperItem
 
 class AmazonSpiderSpider(scrapy.Spider):
     name = 'amazon'
@@ -8,7 +8,7 @@ class AmazonSpiderSpider(scrapy.Spider):
     ]
 
     def parse(self, response):
-        items = AmazonscraperItem()
+        items = WebScraperItem()
 #do by using chrome extension
         product_name = response.css('.a-color-base.a-text-normal::text').extract()
         product_author = response.css('.a-color-secondary .a-size-base+ .a-size-base').css('::text').extract()
