@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
-
+from ..items import ScrapingEbayItem
 
 class EbaySpider(scrapy.Spider):
 	
@@ -23,6 +23,7 @@ class EbaySpider(scrapy.Spider):
 
 	# Parse the search results
 	def parse_link(self, response):
+		items = ScrapingEbayItem()
 		# Extract the list of products 
 		results = response.xpath('//div/div/ul/li[contains(@class, "s-item" )]')
 
@@ -56,20 +57,14 @@ class EbaySpider(scrapy.Spider):
 			ratings_text = product.xpath('.//*[@aria-hidden="true"]/text()').extract_first()
 			if ratings_text: ratings = ratings_text.split(' ')[0]
 
-			summary_data = {
-							"Name":name,
-							"Status":status,
-							#"Seller_Level":seller_level,
-							#"Location":location,
-							"Price":price,
-							"Stars":stars,
-							"Ratings":ratings,
-							"URL": product_url
-							}
-
-			# Go to the product details page
-			data = {'summary_data': summary_data}
-			yield scrapy.Request(product_url, meta=data, callback=self.parse_product_details)
+			items[ 'product_name'] = name
+			items[ 'product_status'] = status
+			items[ 'product_price'] = price
+			items[ 'product_stars'] = stars
+			items[ 'product_ratings'] = ratings
+			items[ 'product_url'] = product_url
+					   
+			yield items
 
 		# Get the next page
 		next_page_url = response.xpath('//*/a[@class="x-pagination__control"][2]/@href').extract_first()
