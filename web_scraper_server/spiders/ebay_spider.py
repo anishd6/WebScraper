@@ -57,14 +57,15 @@ class EbaySpider(scrapy.Spider):
 			ratings_text = product.xpath('.//*[@aria-hidden="true"]/text()').extract_first()
 			if ratings_text: ratings = ratings_text.split(' ')[0]
 
-			items[ 'product_name'] = name
-			items[ 'product_status'] = status
-			items[ 'product_price'] = price
-			items[ 'product_stars'] = stars
-			items[ 'product_ratings'] = ratings
-			items[ 'product_url'] = product_url
+			# items[ 'product_name'] = name
+			# items[ 'product_status'] = status
+			# items[ 'product_price'] = price
+			# items[ 'product_stars'] = stars
+			# items[ 'product_ratings'] = ratings
+			# items[ 'product_url'] = product_url
 					   
-			yield items
+			# yield items
+			yield{'Product Name': name, 'Product Author': "N/A", 'Product Price': price, 'Product Image': "N/A", 'Product Link': product_url}
 
 		# Get the next page
 		next_page_url = response.xpath('//*/a[@class="x-pagination__control"][2]/@href').extract_first()
