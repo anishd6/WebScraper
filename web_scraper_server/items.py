@@ -5,6 +5,7 @@
 
 import scrapy
 
+
 class WebScraperItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
@@ -12,8 +13,9 @@ class WebScraperItem(scrapy.Item):
     product_author = scrapy.Field()
     product_price = scrapy.Field()
     product_imagelink = scrapy.Field()
-    
+
     pass
+
 
 class ScrapingEbayItem(scrapy.Item):
     # define the fields for your item here like:
@@ -25,5 +27,5 @@ class ScrapingEbayItem(scrapy.Item):
     product_ratings = scrapy.Field()
     product_url = scrapy.Field()
     product_upc = scrapy.Field()
-    
+
     pass

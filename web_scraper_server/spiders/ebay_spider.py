@@ -88,7 +88,3 @@ class EbaySpider(scrapy.Spider):
 		data['UPC'] = response.xpath('//h2[@itemprop="gtin13"]/text()').extract_first()
 
 		yield data
-
-
-
-

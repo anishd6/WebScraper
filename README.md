@@ -1,2 +1,2 @@
-# Web-Scraper
-INFO 4290 Project
+# Web-Scraper-Server
+Web Scraper Server for INFO 4290 Project
