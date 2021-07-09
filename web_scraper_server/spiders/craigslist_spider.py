@@ -1,12 +1,28 @@
 import scrapy
+import urllib.parse
+
 
 class CraigslistSpider(scrapy.Spider):
     name = 'craigslist'
     allowed_domains = ['craigslist.org']
     start_urls = [
-        'https://vancouver.craigslist.org/d/for-sale/search/sss?query=nintendo%20switch%20console&sort=rel']
+        'https://www.vancouver.craigslist.org']
 
-    def parse(self, response):
+    # Allow a custom parameter (-a flag in the scrapy command)
+    def __init__(self, search="nintendo switch console"):
+        self.search_string = search
+
+    def parse(self):
+        meta = {
+            "proxy": "http://scraperapi:80bff441326bec92821b8f614366e13c@proxy-server.scraperapi.com:8001"
+        }
+
+        argUrl = urllib.parse.quote(self.search_string)
+
+        yield scrapy.Request('https://vancouver.craigslist.org/d/for-sale/search/sss?query=' + argUrl + '&sort=rel',
+                             callback=self.parse_link, meta=meta)
+
+    def parse_link(self, response):
         results = response.xpath('//li[@class="result-row"]')
 
         for result in results:
@@ -16,7 +32,7 @@ class CraigslistSpider(scrapy.Spider):
                 'div[@class="result-info"]/span[@class="result-meta"]/span[@class="result-hood"]/text()').extract_first()
             product_price = result.xpath(
                 'div[@class="result-info"]/span[@class="result-meta"]/span[@class="result-price"]/text()').extract_first()
-            #TODO: Extract images from craigslist
+            # TODO: Extract images from craigslist
             # product_imagelink = job.xpath(
             #     'a[1]/div[4]/text()').extract_first()
             product_link = result.xpath(
