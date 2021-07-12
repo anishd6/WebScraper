@@ -12,7 +12,7 @@ class AmazonSpiderSpider(scrapy.Spider):
     def __init__(self, search="nintendo switch console"):
         self.search_string = search
 
-    def parse(self):
+    def start_requests(self):
         meta = {
             "proxy": "http://scraperapi:80bff441326bec92821b8f614366e13c@proxy-server.scraperapi.com:8001"
         }
@@ -20,9 +20,9 @@ class AmazonSpiderSpider(scrapy.Spider):
         argUrl = urllib.parse.quote_plus(self.search_string)
 
         yield scrapy.Request('https://www.amazon.ca/s?k=' + argUrl + '&ref=nb_sb_noss_2',
-                             callback=self.parse_link, meta=meta)
+                             callback=self.parse, meta=meta)
 
-    def parse_link(self, response):
+    def parse(self, response):
         results = response.css("div.s-result-item")
 
         for result in results:

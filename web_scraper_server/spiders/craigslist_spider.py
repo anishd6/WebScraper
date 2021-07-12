@@ -12,7 +12,7 @@ class CraigslistSpider(scrapy.Spider):
     def __init__(self, search="nintendo switch console"):
         self.search_string = search
 
-    def parse(self):
+    def start_requests(self):
         meta = {
             "proxy": "http://scraperapi:80bff441326bec92821b8f614366e13c@proxy-server.scraperapi.com:8001"
         }
@@ -20,9 +20,9 @@ class CraigslistSpider(scrapy.Spider):
         argUrl = urllib.parse.quote(self.search_string)
 
         yield scrapy.Request('https://vancouver.craigslist.org/d/for-sale/search/sss?query=' + argUrl + '&sort=rel',
-                             callback=self.parse_link, meta=meta)
+                             callback=self.parse, meta=meta)
 
-    def parse_link(self, response):
+    def parse(self, response):
         results = response.xpath('//li[@class="result-row"]')
 
         for result in results:
