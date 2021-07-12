@@ -13,13 +13,18 @@ class EbaySpider(scrapy.Spider):
 		self.search_string = search
 
 	def parse(self, response):
+		
+		meta = {
+            		"proxy": "http://scraperapi:80bff441326bec92821b8f614366e13c@proxy-server.scraperapi.com:8001"
+        	}
+		
 		# Extrach the trksid to build a search request	
 		trksid = response.css("input[type='hidden'][name='_trksid']").xpath("@value").extract()[0]       
 		
 		# Build the url and start the requests
 		yield scrapy.Request("http://www.ebay.com/sch/i.html?_from=R40&_trksid=" + trksid +
 							 "&_nkw=" + self.search_string.replace(' ','+') + "&_ipg=200", 
-							 callback=self.parse_link)
+							 callback=self.parse_link, meta=meta)
 
 	# Parse the search results
 	def parse_link(self, response):
