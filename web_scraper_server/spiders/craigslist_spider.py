@@ -9,7 +9,8 @@ class CraigslistSpider(scrapy.Spider):
         'https://www.vancouver.craigslist.org']
 
     # Allow a custom parameter (-a flag in the scrapy command)
-    def __init__(self, search="nintendo switch console"):
+    def __init__(self, search=None, *args, **kwargs):
+        super(CraigslistSpider, self).__init__(*args, **kwargs)
         self.search_string = search
 
     def start_requests(self):

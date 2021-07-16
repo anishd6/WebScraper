@@ -2,14 +2,15 @@ import scrapy
 import urllib.parse
 
 
-class AmazonSpiderSpider(scrapy.Spider):
+class AmazonSpider(scrapy.Spider):
     name = 'amazon'
     allowed_domains = ['amazon.ca']
     start_urls = [
         'https://www.amazon.ca']
 
     # Allow a custom parameter (-a flag in the scrapy command)
-    def __init__(self, search="nintendo switch console"):
+    def __init__(self, search=None, *args, **kwargs):
+        super(AmazonSpider, self).__init__(*args, **kwargs)
         self.search_string = search
 
     def start_requests(self):
