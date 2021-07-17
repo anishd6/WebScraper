@@ -31,46 +31,42 @@ class EbaySpider(scrapy.Spider):
 		items = ScrapingEbayItem()
 		# Extract the list of products 
 		results = response.xpath('//div/div/ul/li[contains(@class, "s-item" )]')
+		limit = 0
 
 		# Extract info for each product
-		for product in results:		
-			name = product.xpath('.//*[@class="s-item__title"]//text()').extract_first()
-			# Sponsored or New Listing links have a different class
-			if name == None:
-				name = product.xpath('.//*[@class="s-item__title s-item__title--has-tags"]/text()').extract_first()			
-				if name == None:
-					name = product.xpath('.//*[@class="s-item__title s-item__title--has-tags"]//text()').extract_first()			
-			if name == 'New Listing':
-				name = product.xpath('.//*[@class="s-item__title"]//text()').extract()[1]
+		for product in results:     
+            	    if limit < 15:
+                        limit = limit + 1
+                	    name = product.xpath('.//*[@class="s-item__title"]//text()').extract_first()
+               		    # Sponsored or New Listing links have a different class
+                	    if name == None:
+                    	        name = product.xpath('.//*[@class="s-item__title s-item__title--has-tags"]/text()').extract_first()         
+                    		if name == None:
+                        	    name = product.xpath('.//*[@class="s-item__title s-item__title--has-tags"]//text()').extract_first()            
+                        if name == 'New Listing':
+                            name = product.xpath('.//*[@class="s-item__title"]//text()').extract()[1]
 
-			# If this get a None result
-			if name == None:
-				name = "ERROR"
+                        # If this get a None result
+                        if name == None:
+                            name = "ERROR"
 
-			price = product.xpath('.//*[@class="s-item__price"]/text()').extract_first()
-			status = product.xpath('.//*[@class="SECONDARY_INFO"]/text()').extract_first()
-			seller_level = product.xpath('.//*[@class="s-item__etrs-text"]/text()').extract_first()
-			location = product.xpath('.//*[@class="s-item__location s-item__itemLocation"]/text()').extract_first()
-			product_url = product.xpath('.//a[@class="s-item__link"]/@href').extract_first()
+                        price = product.xpath('.//*[@class="s-item__price"]/text()').extract_first()
+                        status = product.xpath('.//*[@class="SECONDARY_INFO"]/text()').extract_first()
+                        seller_level = product.xpath('.//*[@class="s-item__etrs-text"]/text()').extract_first()
+                        location = product.xpath('.//*[@class="s-item__location s-item__itemLocation"]/text()').extract_first()
+                        product_url = product.xpath('.//a[@class="s-item__link"]/@href').extract_first()
 
-			# Set default values
-			stars = 0
-			ratings = 0
+                        # Set default values
+                        stars = 0
+                        ratings = 0
 
-			stars_text = product.xpath('.//*[@class="clipped"]/text()').extract_first()
-			if stars_text: stars = stars_text[:3]
-			ratings_text = product.xpath('.//*[@aria-hidden="true"]/text()').extract_first()
-			if ratings_text: ratings = ratings_text.split(' ')[0]
+                        stars_text = product.xpath('.//*[@class="clipped"]/text()').extract_first()
+                        if stars_text: stars = stars_text[:3]
+                        ratings_text = product.xpath('.//*[@aria-hidden="true"]/text()').extract_first()
+                        if ratings_text: ratings = ratings_text.split(' ')[0]
 
-			# items[ 'product_name'] = name
-			# items[ 'product_status'] = status
-			# items[ 'product_price'] = price
-			# items[ 'product_stars'] = stars
-			# items[ 'product_ratings'] = ratings
-			# items[ 'product_url'] = product_url
-					   
-			# yield items
-			yield{'Product Name': name, 'Product Author': "N/A", 'Product Price': price, 'Product Image': "N/A", 'Product Link': product_url}
+                        # yield items
+                        yield{'Product Name': name, 'Product Author': "N/A", 'Product Price': price, 'Product Image': "N/A", 'Product Link': product_url}
 
 		# Get the next page
 		next_page_url = response.xpath('//*/a[@class="x-pagination__control"][2]/@href').extract_first()
