@@ -25,7 +25,8 @@ class CraigslistSpider(scrapy.Spider):
 
     def parse(self, response):
         results = response.xpath('//li[@class="result-row"]')
-
+        limit = 0
+        
         for result in results:
             if limit < 15:
                 limit = limit + 1

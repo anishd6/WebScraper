@@ -25,6 +25,7 @@ class AmazonSpider(scrapy.Spider):
 
     def parse(self, response):
         results = response.css("div.s-result-item")
+        limit = 0
 
         for result in results:
             if limit < 15:
