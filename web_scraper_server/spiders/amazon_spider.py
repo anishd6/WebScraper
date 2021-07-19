@@ -29,7 +29,7 @@ class AmazonSpider(scrapy.Spider):
 
         for result in results:
             if limit < 15:
-                limit =  + 1
+                limit = limit + 1
                 product_name = result.css(
                     '.a-color-base.a-text-normal::text').extract_first()
                 product_location = result.css(
