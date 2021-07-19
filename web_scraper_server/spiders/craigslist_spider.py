@@ -27,16 +27,18 @@ class CraigslistSpider(scrapy.Spider):
         results = response.xpath('//li[@class="result-row"]')
 
         for result in results:
-            product_name = result.xpath(
-                'div[@class="result-info"]/h3[@class="result-heading"]/a/text()').extract_first()
-            product_location = result.xpath(
-                'div[@class="result-info"]/span[@class="result-meta"]/span[@class="result-hood"]/text()').extract_first()
-            product_price = result.xpath(
-                'div[@class="result-info"]/span[@class="result-meta"]/span[@class="result-price"]/text()').extract_first()
-            # TODO: Extract images from craigslist
-            # product_imagelink = job.xpath(
-            #     'a[1]/div[4]/text()').extract_first()
-            product_link = result.xpath(
-                'div[@class="result-info"]/h3[@class="result-heading"]/a/@href').extract_first()
+            if limit < 15:
+                limit = limit + 1
+                product_name = result.xpath(
+                    'div[@class="result-info"]/h3[@class="result-heading"]/a/text()').extract_first()
+                product_location = result.xpath(
+                    'div[@class="result-info"]/span[@class="result-meta"]/span[@class="result-hood"]/text()').extract_first()
+                product_price = result.xpath(
+                    'div[@class="result-info"]/span[@class="result-meta"]/span[@class="result-price"]/text()').extract_first()
+                # TODO: Extract images from craigslist
+                # product_imagelink = job.xpath(
+                #     'a[1]/div[4]/text()').extract_first()
+                product_link = result.xpath(
+                    'div[@class="result-info"]/h3[@class="result-heading"]/a/@href').extract_first()
 
-            yield{'Product Name': product_name, 'Product Author': product_location, 'Product Price': product_price, 'Product Image': "N/A", 'Product Link': product_link}
+                yield{'Product Name': product_name, 'Product Author': product_location, 'Product Price': product_price, 'Product Image': "N/A", 'Product Link': product_link}
