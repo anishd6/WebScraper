@@ -70,7 +70,7 @@ class EbaySpider(scrapy.Spider):
                 product_url = product.xpath(
                     './/a[@class="s-item__link"]/@href').extract_first()
                 product_image = product.css(
-                    '.s-image__image-img::attr(src)').extract_first()
+                    '.s-item__image-img::attr(src)').extract_first()
 
                 # Set default values
                 stars = 0
@@ -86,7 +86,7 @@ class EbaySpider(scrapy.Spider):
                     ratings = ratings_text.split(' ')[0]
 
                 # yield items
-                yield{'Product Name': name, 'Product Author': "N/A", 'Product Price': price, 'Product Image': product_image, 'Product Link': product_url}
+                yield{'Product Name': name, 'Product Author': "eBay", 'Product Price': price, 'Product Image': product_image, 'Product Link': product_url}
 
         # Get the next page
         next_page_url = response.xpath(
