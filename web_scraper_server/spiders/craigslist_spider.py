@@ -37,9 +37,10 @@ class CraigslistSpider(scrapy.Spider):
                 product_price = result.xpath(
                     'div[@class="result-info"]/span[@class="result-meta"]/span[@class="result-price"]/text()').extract_first()
                 # TODO: Extract images from craigslist
-                # product_imagelink = job.xpath(
-                #     'a[1]/div[4]/text()').extract_first()
+                image_id = result.xpath('a/@data-ids').extract_first()
                 product_link = result.xpath(
                     'div[@class="result-info"]/h3[@class="result-heading"]/a/@href').extract_first()
 
-                yield{'Product Name': product_name, 'Product Author': product_location, 'Product Price': product_price, 'Product Image': "N/A", 'Product Link': product_link}
+                product_imagelink = 'https://images.craigslist.org/' + image_id.split(',')[0].split(":",1)[1] + '_300x300.jpg' if image_id is not None else "None"
+
+                yield{'Product Name': product_name, 'Product Author': "Craigslist", 'Product Price': product_price, 'Product Image': product_imagelink, 'Product Link': product_link}
