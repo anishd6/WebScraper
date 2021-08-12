@@ -27,5 +27,6 @@ class ScrapingEbayItem(scrapy.Item):
     product_ratings = scrapy.Field()
     product_url = scrapy.Field()
     product_upc = scrapy.Field()
-
+    product_image = scrapy.Field()
+    
     pass
