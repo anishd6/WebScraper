@@ -9,6 +9,10 @@ class EbaySpider(scrapy.Spider):
     allowed_domains = ["ebay.com"]
     start_urls = ["https://www.ebay.com"]
 
+    custom_settings = {
+        'CLOSESPIDER_TIMEOUT': 29
+    }
+
     # Allow a custom parameter (-a flag in the scrapy command)
     def __init__(self, search="nintendo switch console"):
         self.search_string = search
