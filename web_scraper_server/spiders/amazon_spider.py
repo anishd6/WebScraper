@@ -9,7 +9,7 @@ class AmazonSpider(scrapy.Spider):
         'https://www.amazon.ca']
 
     custom_settings = {
-        'CLOSESPIDER_TIMEOUT': 29
+        'CLOSESPIDER_TIMEOUT': 3
     }
 
     # Allow a custom parameter (-a flag in the scrapy command)

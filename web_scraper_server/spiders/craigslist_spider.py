@@ -9,7 +9,7 @@ class CraigslistSpider(scrapy.Spider):
         'https://www.vancouver.craigslist.org']
 
     custom_settings = {
-        'CLOSESPIDER_TIMEOUT': 29
+        'CLOSESPIDER_TIMEOUT': 3
     }
 
     # Allow a custom parameter (-a flag in the scrapy command)
