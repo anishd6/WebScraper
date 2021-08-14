@@ -10,7 +10,7 @@ class EbaySpider(scrapy.Spider):
     start_urls = ["https://www.ebay.com"]
 
     custom_settings = {
-        'CLOSESPIDER_TIMEOUT': 10
+        'CLOSESPIDER_TIMEOUT': 5
     }
 
     # Allow a custom parameter (-a flag in the scrapy command)
