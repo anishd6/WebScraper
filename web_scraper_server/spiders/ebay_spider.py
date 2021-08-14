@@ -10,7 +10,7 @@ class EbaySpider(scrapy.Spider):
     start_urls = ["https://www.ebay.com"]
 
     custom_settings = {
-        'CLOSESPIDER_TIMEOUT': 3
+        'CLOSESPIDER_TIMEOUT': 10
     }
 
     # Allow a custom parameter (-a flag in the scrapy command)
@@ -90,7 +90,7 @@ class EbaySpider(scrapy.Spider):
                     ratings = ratings_text.split(' ')[0]
 
                 # yield items
-                yield{'Product Name': name, 'Product Author': "eBay", 'Product Price': price, 'Product Image': product_image, 'Product Link': product_url}
+                yield{'Product Name': name, 'Product Author': "eBay - " + limit, 'Product Price': price, 'Product Image': product_image, 'Product Link': product_url}
 
         # Get the next page
         next_page_url = response.xpath(

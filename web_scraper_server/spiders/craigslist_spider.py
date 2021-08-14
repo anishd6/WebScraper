@@ -9,7 +9,7 @@ class CraigslistSpider(scrapy.Spider):
         'https://www.vancouver.craigslist.org']
 
     custom_settings = {
-        'CLOSESPIDER_TIMEOUT': 3
+        'CLOSESPIDER_TIMEOUT': 10
     }
 
     # Allow a custom parameter (-a flag in the scrapy command)
@@ -36,15 +36,12 @@ class CraigslistSpider(scrapy.Spider):
                 limit = limit + 1
                 product_name = result.xpath(
                     'div[@class="result-info"]/h3[@class="result-heading"]/a/text()').extract_first()
-                product_location = result.xpath(
-                    'div[@class="result-info"]/span[@class="result-meta"]/span[@class="result-hood"]/text()').extract_first()
                 product_price = result.xpath(
                     'div[@class="result-info"]/span[@class="result-meta"]/span[@class="result-price"]/text()').extract_first()
-                # TODO: Extract images from craigslist
                 image_id = result.xpath('a/@data-ids').extract_first()
                 product_link = result.xpath(
                     'div[@class="result-info"]/h3[@class="result-heading"]/a/@href').extract_first()
 
                 product_imagelink = 'https://images.craigslist.org/' + image_id.split(',')[0].split(":",1)[1] + '_300x300.jpg' if image_id is not None else "None"
 
-                yield{'Product Name': product_name, 'Product Author': "Craigslist", 'Product Price': product_price, 'Product Image': product_imagelink, 'Product Link': product_link}
+                yield{'Product Name': product_name, 'Product Author': "Craigslist - " + limit, 'Product Price': product_price, 'Product Image': product_imagelink, 'Product Link': product_link}
