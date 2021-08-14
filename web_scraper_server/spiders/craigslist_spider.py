@@ -24,7 +24,7 @@ class CraigslistSpider(scrapy.Spider):
 
         argUrl = urllib.parse.quote(self.search_string)
 
-        yield scrapy.Request('https://vancouver.craigslist.org/d/for-sale/search/sss?query=' + argUrl + '&sort=rel',
+        yield scrapy.Request('https://vancouver.craigslist.org/d/for-sale/search/sss?query=' + str(argUrl) + '&sort=rel',
                              callback=self.parse, meta=meta)
 
     def parse(self, response):
@@ -34,6 +34,7 @@ class CraigslistSpider(scrapy.Spider):
         for result in results:
             if limit < 15:
                 limit = limit + 1
+                
                 product_name = result.xpath(
                     'div[@class="result-info"]/h3[@class="result-heading"]/a/text()').extract_first()
                 product_price = result.xpath(
@@ -44,4 +45,4 @@ class CraigslistSpider(scrapy.Spider):
 
                 product_imagelink = 'https://images.craigslist.org/' + image_id.split(',')[0].split(":",1)[1] + '_300x300.jpg' if image_id is not None else "None"
 
-                yield{'Product Name': product_name, 'Product Author': "Craigslist - " + limit, 'Product Price': product_price, 'Product Image': product_imagelink, 'Product Link': product_link}
+                yield{'Product Name': product_name, 'Product Author': "Craigslist - " + str(limit), 'Product Price': product_price, 'Product Image': product_imagelink, 'Product Link': product_link}

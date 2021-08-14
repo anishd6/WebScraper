@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import scrapy
 from ..items import ScrapingEbayItem
 
@@ -14,7 +13,8 @@ class EbaySpider(scrapy.Spider):
     }
 
     # Allow a custom parameter (-a flag in the scrapy command)
-    def __init__(self, search="nintendo switch console"):
+    def __init__(self, search=None, *args, **kwargs):
+        super(EbaySpider, self).__init__(*args, **kwargs)
         self.search_string = search
 
     def parse(self, response):
@@ -65,54 +65,10 @@ class EbaySpider(scrapy.Spider):
 
                 price = product.xpath(
                     './/*[@class="s-item__price"]/text()').extract_first()
-                status = product.xpath(
-                    './/*[@class="SECONDARY_INFO"]/text()').extract_first()
-                seller_level = product.xpath(
-                    './/*[@class="s-item__etrs-text"]/text()').extract_first()
-                location = product.xpath(
-                    './/*[@class="s-item__location s-item__itemLocation"]/text()').extract_first()
                 product_url = product.xpath(
                     './/a[@class="s-item__link"]/@href').extract_first()
                 product_image = product.css(
                     '.s-item__image-img::attr(src)').extract_first()
 
-                # Set default values
-                stars = 0
-                ratings = 0
-
-                stars_text = product.xpath(
-                    './/*[@class="clipped"]/text()').extract_first()
-                if stars_text:
-                    stars = stars_text[:3]
-                ratings_text = product.xpath(
-                    './/*[@aria-hidden="true"]/text()').extract_first()
-                if ratings_text:
-                    ratings = ratings_text.split(' ')[0]
-
                 # yield items
-                yield{'Product Name': name, 'Product Author': "eBay - " + limit, 'Product Price': price, 'Product Image': product_image, 'Product Link': product_url}
-
-        # Get the next page
-        next_page_url = response.xpath(
-            '//*/a[@class="x-pagination__control"][2]/@href').extract_first()
-
-        # The last page do not have a valid url and ends with '#'
-        if next_page_url == None or str(next_page_url).endswith("#"):
-            self.log("eBay products collected successfully !!!")
-        else:
-            print('\n'+'-'*30)
-            print('Next page: {}'.format(next_page_url))
-            yield scrapy.Request(next_page_url, callback=self.parse_link)
-
-    # Parse details page for each product
-
-    def parse_product_details(self, response):
-
-        # Get the summary data
-        data = response.meta['summary_data']
-
-        # Add more data from details page
-        data['UPC'] = response.xpath(
-            '//h2[@itemprop="gtin13"]/text()').extract_first()
-
-        yield data
+                yield{'Product Name': name, 'Product Author': "eBay - " + str(limit), 'Product Price': price, 'Product Image': product_image, 'Product Link': product_url}

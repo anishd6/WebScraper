@@ -24,7 +24,7 @@ class AmazonSpider(scrapy.Spider):
 
         argUrl = urllib.parse.quote_plus(self.search_string)
 
-        yield scrapy.Request('https://www.amazon.ca/s?k=' + argUrl + '&ref=nb_sb_noss_2',
+        yield scrapy.Request('https://www.amazon.ca/s?k=' + str(argUrl) + '&ref=nb_sb_noss_2',
                              callback=self.parse, meta=meta)
 
     def parse(self, response):
@@ -34,10 +34,11 @@ class AmazonSpider(scrapy.Spider):
         for result in results:
             if limit < 15:
                 limit = limit + 1
+
                 product_name = result.css(
                     '.a-color-base.a-text-normal::text').extract_first()
                 product_price = result.css('.sg-col-0-of-12:nth-child(1) .a-spacing-mini:nth-child(1) .a-text-price , .sg-col-0-of-12:nth-child(1) .a-spacing-mini:nth-child(1) .a-price:nth-child(1) .a-offscreen+ span , #nav-logo-sprites , .a-spacing-top-small .a-price-fraction , .a-spacing-top-small .a-price-whole').css('::text').extract_first()
                 product_imagelink = result.css(
                     '.s-image::attr(src)').extract_first()
 
-                yield{'Product Name': product_name, 'Product Author': "Amazon - " + limit, 'Product Price': product_price, 'Product Image': product_imagelink, 'Product Link': "N/A"}
+                yield{'Product Name': product_name, 'Product Author': "Amazon - " + str(limit), 'Product Price': product_price, 'Product Image': product_imagelink, 'Product Link': "N/A"}
