@@ -8,10 +8,6 @@ class CraigslistSpider(scrapy.Spider):
     start_urls = [
         'https://www.vancouver.craigslist.org']
 
-    # custom_settings = {
-    #     'CLOSESPIDER_TIMEOUT': 5
-    # }
-
     # Allow a custom parameter (-a flag in the scrapy command)
     def __init__(self, search=None, *args, **kwargs):
         super(CraigslistSpider, self).__init__(*args, **kwargs)

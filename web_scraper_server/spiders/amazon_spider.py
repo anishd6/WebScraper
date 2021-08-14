@@ -8,10 +8,6 @@ class AmazonSpider(scrapy.Spider):
     start_urls = [
         'https://www.amazon.ca']
 
-    custom_settings = {
-        'CLOSESPIDER_TIMEOUT': 3
-    }
-
     # Allow a custom parameter (-a flag in the scrapy command)
     def __init__(self, search=None, *args, **kwargs):
         super(AmazonSpider, self).__init__(*args, **kwargs)
@@ -38,7 +34,6 @@ class AmazonSpider(scrapy.Spider):
                 product_name = result.css(
                     '.a-color-base.a-text-normal::text').extract_first()
                 product_price = result.css('.sg-col-0-of-12:nth-child(1) .a-spacing-mini:nth-child(1) .a-text-price , .sg-col-0-of-12:nth-child(1) .a-spacing-mini:nth-child(1) .a-price:nth-child(1) .a-offscreen+ span , #nav-logo-sprites , .a-spacing-top-small .a-price-fraction , .a-spacing-top-small .a-price-whole').css('::text').extract_first()
-                product_imagelink = result.css(
-                    '.s-image::attr(src)').extract_first()
+                product_imagelink = result.css('.s-image-fixed-height .s-image').extract_first()
 
                 yield{'Product Name': product_name, 'Product Author': "Amazon - " + str(limit), 'Product Price': product_price, 'Product Image': product_imagelink, 'Product Link': "N/A"}
