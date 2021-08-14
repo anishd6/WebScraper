@@ -29,11 +29,16 @@ class AmazonSpider(scrapy.Spider):
 
         for result in results:
             if limit < 15:
-                limit = limit + 1
 
                 product_name = result.css(
                     '.a-color-base.a-text-normal::text').extract_first()
                 product_price = result.css('.sg-col-0-of-12:nth-child(1) .a-spacing-mini:nth-child(1) .a-text-price , .sg-col-0-of-12:nth-child(1) .a-spacing-mini:nth-child(1) .a-price:nth-child(1) .a-offscreen+ span , #nav-logo-sprites , .a-spacing-top-small .a-price-fraction , .a-spacing-top-small .a-price-whole').css('::text').extract_first()
-                product_imagelink = result.css('.s-image-fixed-height .s-image').extract_first()
+                product_imagelink = result.css('.s-image::attr(src)').extract_first()
+                product_productlink = result.css('.a-link-normal::attr(href)').extract_first()
 
-                yield{'Product Name': product_name, 'Product Author': "Amazon - " + str(limit), 'Product Price': product_price, 'Product Image': product_imagelink, 'Product Link': "N/A"}
+
+                if (product_price is not None):
+                    yield{'Product Name': product_name, 'Product Author': "Amazon - " + str(limit), 'Product Price': product_price, 'Product Image': product_imagelink, 'Product Link': "amazon.ca" + str(product_productlink)}
+                    limit = limit + 1
+                else:
+                    continue
