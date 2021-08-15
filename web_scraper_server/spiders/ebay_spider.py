@@ -67,4 +67,4 @@ class EbaySpider(scrapy.Spider):
                     '.s-item__image-img::attr(src)').extract_first()
 
                 # yield items
-                yield{'Product Name': name, 'Product Author': "eBay - " + str(limit), 'Product Price': price, 'Product Image': product_image, 'Product Link': product_url}
+                yield{'Product Name': name, 'Product Author': "eBay", 'Product Price': price, 'Product Image': product_image, 'Product Link': product_url}

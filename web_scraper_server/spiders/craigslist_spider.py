@@ -41,4 +41,4 @@ class CraigslistSpider(scrapy.Spider):
 
                 product_imagelink = 'https://images.craigslist.org/' + image_id.split(',')[0].split(":",1)[1] + '_300x300.jpg' if image_id is not None else "None"
 
-                yield{'Product Name': product_name, 'Product Author': "Craigslist - " + str(limit), 'Product Price': product_price, 'Product Image': product_imagelink, 'Product Link': product_link}
+                yield{'Product Name': product_name, 'Product Author': "Craigslist", 'Product Price': product_price, 'Product Image': product_imagelink, 'Product Link': product_link}
