@@ -15,7 +15,7 @@ class AmazonSpider(scrapy.Spider):
 
     def start_requests(self):
         meta = {
-            "proxy": "http://scraperapi:80bff441326bec92821b8f614366e13c@proxy-server.scraperapi.com:8001"
+            "proxy": "http://scraperapi:526b7fdece33bcad13371dd89f60b6b7@proxy-server.scraperapi.com:8001"
         }
 
         argUrl = urllib.parse.quote_plus(self.search_string)
