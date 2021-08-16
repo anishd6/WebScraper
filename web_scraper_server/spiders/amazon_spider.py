@@ -38,7 +38,7 @@ class AmazonSpider(scrapy.Spider):
 
 
                 if (product_price is not None):
-                    yield{'Product Name': product_name, 'Product Author': "Amazon", 'Product Price': "$" + str(product_price), 'Product Image': product_imagelink, 'Product Link': "amazon.ca" + str(product_productlink)}
+                    yield{'Product Name': product_name, 'Product Author': "Amazon", 'Product Price': "$" + str(product_price), 'Product Image': product_imagelink, 'Product Link': "https://amazon.ca" + str(product_productlink)}
                     limit = limit + 1
                 else:
                     continue
