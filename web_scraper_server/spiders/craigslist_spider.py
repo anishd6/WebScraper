@@ -15,7 +15,7 @@ class CraigslistSpider(scrapy.Spider):
 
     def start_requests(self):
         meta = {
-            "proxy": "http://scraperapi:526b7fdece33bcad13371dd89f60b6b7@proxy-server.scraperapi.com:8001"
+            "proxy": "http://scraperapi:8831186ef0337b788b1d16870c894d2c@proxy-server.scraperapi.com:8001"
         }
 
         argUrl = urllib.parse.quote(self.search_string)
