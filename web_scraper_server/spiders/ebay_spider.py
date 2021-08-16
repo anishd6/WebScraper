@@ -16,7 +16,7 @@ class EbaySpider(scrapy.Spider):
     def parse(self, response):
 
         meta = {
-            "proxy": "http://scraperapi:526b7fdece33bcad13371dd89f60b6b7@proxy-server.scraperapi.com:8001"
+            "proxy": "http://scraperapi:8831186ef0337b788b1d16870c894d2c@proxy-server.scraperapi.com:8001"
         }
 
         # Extrach the trksid to build a search request
